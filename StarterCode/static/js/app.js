@@ -26,11 +26,8 @@ function optionChanged(selectedName) {
         var filteredSamplesdata = dataSamples.samples.filter(samplesOTU => samplesOTU.id == selectedName);
         // console.log(filteredSamplesdata[0]);
             var sampleValues = filteredSamplesdata[0].sample_values;
-            // console.log(sampleValues);
             var otuIDs = filteredSamplesdata[0].otu_ids;
-            // console.log(otuIDs);
             var otuLables = filteredSamplesdata[0].otu_labels;
-            // console.log(otuLables);
 
         //Bar Graph (line 42)
             //sample_values = values for the bar chart
@@ -66,6 +63,27 @@ function optionChanged(selectedName) {
             //otu_ids = marker colors
             //otu_labels = text values
 
+            var trace2 = {
+                x: otuIDs,
+                y: sampleValues,
+                text: otuLables,
+                mode: 'markers',
+                marker: {
+                  size: sampleValues,
+                  color: otuIDs,
+                  colorscale: 'Picnic',
+                }
+              };
+              
+              var dataBubble = [trace2];
+              
+              var layoutBubble = {
+                title: `All Samples for ID ${selectedName}`,
+                showlegend: false,
+              };
+              
+              Plotly.newPlot('bubble', dataBubble, layoutBubble);
+
         //Demographic Info (line 31, added rows for each stats to index)
         var filteredMetadata = dataSamples.metadata.filter(metaData => metaData.id == selectedName);
         // console.log(filteredMetadata)
@@ -78,7 +96,7 @@ function optionChanged(selectedName) {
             d3.select("#metadata-wfreq span").html(`${filteredMetadata[0].wfreq}`)
 
     })
-}
+};
 
 
 
